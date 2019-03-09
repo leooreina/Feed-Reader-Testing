@@ -15,7 +15,7 @@ and open the index.html in the browser. The Jasmine will
 check if the 7 specs passes:
 
 - A test suit called "Initial Entries":
- * A spec to ensure that there is an element in the feed container
+  * A spec to ensure that there is an element in the feed container
 
 - A test suit called "New Feed Selection":
   * A spec to ensure that two tests are not equal
