@@ -9,27 +9,19 @@
  * to ensure they don't run until the DOM is ready.
  */
 $(function() {
-    /* This is our first test suite - a test suite just contains
-    * a related set of tests. This suite is all about the RSS
-    * feeds definitions, the allFeeds variable in our application.
-    */
+    
     describe('RSS Feeds', function() {
-        /* This is our first test - it tests to make sure that the
-         * allFeeds variable has been defined and that it is not
-         * empty. Experiment with this before you get started on
-         * the rest of this project. What happens when you change
-         * allFeeds in app.js to be an empty array and refresh the
-         * page?
-         */
+        
         it('are defined', function() {
             expect(allFeeds).toBeDefined(); // Make sure allFeeds is defined
             expect(allFeeds.length).not.toBe(0); // Make sure allFeeds is not empty
         });
 
 
-        /* TODO: Write a test that loops through each feed
-         * in the allFeeds object and ensures it has a URL defined
-         * and that the URL is not empty.
+        /* Write two tests that loops through each feed
+         * in the allFeeds object. The first takes the url, make sure it's
+         * not empty and it's defined. The second one makes the same thing,
+         * but for the name property.
          */
         it('url defined', function() {
             allFeeds.forEach(function (item) {
@@ -39,11 +31,6 @@ $(function() {
             });
         });
 
-
-        /* TODO: Write a test that loops through each feed
-         * in the allFeeds object and ensures it has a name defined
-         * and that the name is not empty.
-         */
         it('name defined', function() {
             allFeeds.forEach(function (item) {
                 const name = item.name; // Takes the name
@@ -53,87 +40,71 @@ $(function() {
         });
     });
 
-
-    /* TODO: Write a new test suite named "The menu" */
     describe('The menu', function() {
 
-
-
-        /* TODO: Write a test that ensures the menu element is
-         * hidden by default. You'll have to analyze the HTML and
-         * the CSS to determine how we're performing the
-         * hiding/showing of the menu element.
+        /* Expect that the body element has the Class menu-hidden
+         * by default.
          */
         it('menu element is hidden', function() {
-        	/* Expect that the body element has the Class menu-hidden
-        	 * by default.
-        	 */
+        	
             expect($('body').hasClass('menu-hidden')).toBe(true);
         });
 
-         /* TODO: Write a test that ensures the menu changes
-          * visibility when the menu icon is clicked. This test
-          * should have two expectations: does the menu display when
-          * clicked and does it hide when clicked again.
-          */
+        /* Expect that once the click is detected, the class
+         * menu-hidden in the body element should be false, showing
+         * the menu. After another click, then the menu is hidden.
+         */
         it('change visibility when clicked', function(){
-        	/* Expect that once the click is detected, the class
-        	 * menu-hidden in the body element should be false, showing
-        	 * the menu. After another click, then the menu is hidden.
-        	 */
 
-            $('.menu-icon-link').trigger('click');
+            $('.menu-icon-link').trigger('click'); // detects the click
             expect($('body').hasClass('menu-hidden')).toBe(false);
-            $('.menu-icon-link').trigger('click');
+            $('.menu-icon-link').trigger('click'); // detects another click
             expect($('body').hasClass('menu-hidden')).toBe(true);
         });
 
     });
-    /* TODO: Write a new test suite named "Initial Entries" */
+    
     describe('Initial Entries', function() {
 
-        const firstFeed = $('.feed').find(allFeeds.url);
-        const secondFeed = $('.feed').find(allFeeds.url);
-        /* TODO: Write a test that ensures when the loadFeed
-         * function is called and completes its work, there is at least
-         * a single .entry element within the .feed container.
-         * Remember, loadFeed() is asynchronous so this test will require
-         * the use of Jasmine's beforeEach and asynchronous done() function.
-         */
-
+        // run Async
         beforeEach(function(done) {
             
+            // load the feed
             loadFeed(0, function() {
-                firstFeed;
-                done();
-            });
-            loadFeed(1, function() {
-                secondFeed;
                 done();
             });
                 
         });
 
+        // Make sure that there is an element in the container
         it('there is an element in the feed container', function() {
             expect($('.feed').length).not.toBe(0); // Make sure that the .feed is not empty
         });
 
     });
-        
-    /* TODO: Write a new test suite named "New Feed Selection" */
-
+    
     describe('New Feed Selection', function() {
 
-        const firstFeed = $('.feed').find(allFeeds.url);
-        const secondFeed = $('.feed').find(allFeeds.url);
-        /* TODO: Write a test that ensures when a new feed is loaded
-         * by the loadFeed function that the content actually changes.
-         * Remember, loadFeed() is asynchronous.
-         */
+        // run Async
+        beforeEach(function(done) {
+
+            // Load the feeds and save them in two variables
+            loadFeed(0, function() {
+                entryOne = $('.feed').find(allFeeds.url);
+            });
+            loadFeed(1, function() {
+                entryTwo = $('.feed').find(allFeeds.url);
+                done();
+            });
+
+        });
+
+        // compare the two feeds and make sure that the new feed changes
         it('new feed changes', function() {
-            expect(firstFeed).not.toBe(secondFeed); // Make sure that the first feed is different from the second feed.
+            expect(entryOne).not.toBe(entryTwo); // Make sure that the first feed is different from the second feed. 
         });    
 
     });
+    
 
 }());
