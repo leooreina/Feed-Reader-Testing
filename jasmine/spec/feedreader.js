@@ -78,7 +78,7 @@ $(function() {
 
         // Make sure that there is an element in the container
         it('there is an element in the feed container', function() {
-            expect($('.feed').length).not.toBe(0); // Make sure that the .feed is not empty
+            expect($('.feed .entry').length).not.toBe(0); // Make sure that the .feed is not empty
         });
 
     });
@@ -91,11 +91,12 @@ $(function() {
             // Load the feeds and save them in two variables
             loadFeed(0, function() {
                 entryOne = $('.feed').find(allFeeds.url);
+                loadFeed(1, function() {
+                    entryTwo = $('.feed').find(allFeeds.url);
+                    done();
+                });
             });
-            loadFeed(1, function() {
-                entryTwo = $('.feed').find(allFeeds.url);
-                done();
-            });
+            
 
         });
 
